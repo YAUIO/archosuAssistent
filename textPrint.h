@@ -11,5 +11,8 @@ struct tp {
     static bool yn(std::string const& question, char const& preffered);
     static bool yn(std::string const& question);
     static bool exec(std::string const& command);
+    static void err(std::string const& error);
+    static void err();
+    static std::string execreturn(const char* cmd);
 };
 
