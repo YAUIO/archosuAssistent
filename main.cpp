@@ -1,3 +1,4 @@
+#include <fstream>
 #include <fmt/core.h>
 #include <fmt/color.h>
 #include <iostream>
@@ -21,66 +22,66 @@ int main() {\
         throw std::runtime_error("User did not agree");
     }
 
+    bool amdgpu = tp::yn("AMD GPU [Y] or NVIDIA GPU [n]");
+
     if (tp::yn("Do you want to install all osu dependencies [Y], or only configs [n]")) {
 
-        bool amdgpu = tp::yn("AMD GPU [Y] or NVIDIA GPU [n]");
         bool amdcpu = tp::yn("AMD CPU [Y] or INTEL CPU [n]");
         bool linuxzen = tp::yn("linux-zen core [Y] or other [n]");
 
         if (!tp::yn("Do you have pipewire installed?")) {
-            fmt::println(
-                "sudo pacman -Sy pavucontrol pipewire pipewire-alsa pipewire-audio pipewire-jack pipewire-media-session pipewire-pulse libpipewire lib32-pipewire lib32-libpipewire gst-plugin-pipewire");
-            if (system(
-                    "sudo pacman -Sy pavucontrol pipewire pipewire-alsa pipewire-audio pipewire-jack pipewire-media-session pipewire-pulse libpipewire lib32-pipewire lib32-libpipewire gst-plugin-pipewire")
-                != 0) {
+            command = "sudo pacman -Sy pavucontrol pipewire pipewire-alsa pipewire-audio pipewire-jack pipewire-media-session pipewire-pulse libpipewire lib32-pipewire lib32-libpipewire gst-plugin-pipewire";
+            fmt::println("{}",command);
+            if (system(command.c_str())!= 0) {
                 tp::err();
             }
         } else {
             bool pipms = tp::yn("Do you have pipewire-media-session [Y] or wireplumber [n] ?");
         }
 
-        fmt::println("sudo pacman -Sy git go winetricks lib32-libxcomposite wine giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls \
+        command = "sudo pacman -Sy git go winetricks lib32-libxcomposite wine giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls \
 mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error \
 lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo \
 sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama \
 ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 \
-lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader");
-        if (system("sudo pacman -Sy git go winetricks lib32-libxcomposite wine giflib lib32-giflib libpng lib32-libpng libldap lib32-libldap gnutls lib32-gnutls \
-mpg123 lib32-mpg123 openal lib32-openal v4l-utils lib32-v4l-utils libpulse lib32-libpulse libgpg-error \
-lib32-libgpg-error alsa-plugins lib32-alsa-plugins alsa-lib lib32-alsa-lib libjpeg-turbo lib32-libjpeg-turbo \
-sqlite lib32-sqlite libxcomposite lib32-libxcomposite libxinerama lib32-libgcrypt libgcrypt lib32-libxinerama \
-ncurses lib32-ncurses opencl-icd-loader lib32-opencl-icd-loader libxslt lib32-libxslt libva lib32-libva gtk3 \
-lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader") != 0) {
+lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader lib32-vulkan-icd-loader";
+        fmt::println("{}",command);
+        if (system(command.c_str()) != 0) {
             tp::err();
         }
 
         if (amdgpu) {
-            fmt::println("sudo pacman -Sy vulkan-radeon libva-mesa-driver xf86-video-ati xf86-video-amdgpu mesa");
-            if (system("sudo pacman -Sy vulkan-radeon libva-mesa-driver xf86-video-ati xf86-video-amdgpu mesa") != 0) {
+            command = "sudo pacman -Sy vulkan-radeon libva-mesa-driver xf86-video-ati xf86-video-amdgpu mesa lib32-mesa";
+            fmt::println("{}",command);
+            if (system(command.c_str()) != 0) {
                 tp::err();
             }
         } else {
-            fmt::println("sudo pacman -Sy nvidia-dkms nvidia-settings nvidia-utils lib32-nvidia-utils");
-            if (system("sudo pacman -Sy nvidia-dkms nvidia-settings nvidia-utils lib32-nvidia-utils") != 0) {
+            command = "sudo pacman -Sy nvidia-dkms nvidia-settings nvidia-utils lib32-nvidia-utils";
+            fmt::println("{}",command);
+            if (system(command.c_str()) != 0) {
                 tp::err();
             }
         }
 
         if (linuxzen) {
-            fmt::println("sudo pacman -Sy linux-zen linux-zen-headers");
-            if (system("sudo pacman -Sy linux-zen linux-zen-headers") != 0) {
+            command = "sudo pacman -Sy linux-zen linux-zen-headers";
+            fmt::println("{}",command);
+            if (system(command.c_str()) != 0) {
                 tp::err();
             }
         }
 
         if (amdcpu) {
-            fmt::println("sudo pacman -Sy amd-ucode");
-            if (system("sudo pacman -Sy amd-ucode") != 0) {
+            command = "sudo pacman -Sy amd-ucode";
+            fmt::println("{}",command);
+            if (system(command.c_str()) != 0) {
                 tp::err();
             }
         } else {
-            fmt::println("sudo pacman -Sy intel-ucode");
-            if (system("sudo pacman -Sy intel-ucode") != 0) {
+            command = "sudo pacman -Sy intel-ucode";
+            fmt::println("{}",command);
+            if (system(command.c_str()) != 0) {
                 tp::err();
             }
         }
@@ -102,10 +103,82 @@ lib32-gtk3 gst-plugins-base-libs lib32-gst-plugins-base-libs vulkan-icd-loader l
             tp::err();
         }
 
+        command = "ls " + homedir + "/.local/bin";
+        std::string write_to = "/.local/bin/osu";
+        if (tp::execreturn(command.c_str()).contains("osu")) {
+            if(tp::yn("osu! launch script exists. Proceeding will overwrite it. Overwrite?")) {
+                command = "rm -f " + homedir + "/.local/bin/osu";
+                fmt::println("{}",command);
+                if (system(command.c_str()) != 0) {
+                    tp::err();
+                }
 
-        command = "touch " + homedir + "/.local/bin/osu";
-        fmt::println("{}",command);
-        if (system(command.c_str()) != 0) {
+                command = "touch " + homedir + "/.local/bin/osu";
+                fmt::println("{}",command);
+                if (system(command.c_str()) != 0) {
+                    tp::err();
+                }
+            } else {
+                command = "rm -f " + homedir + "/.local/bin/archosu";
+                fmt::println("{}",command);
+                if (system(command.c_str()) != 0) {
+                    tp::err();
+                }
+
+                fmt::println("Writing to a different file");
+                command = "touch " + homedir + "/.local/bin/archosu";
+                write_to = "/.local/bin/archosu";
+                fmt::println("{}",command);
+                if (system(command.c_str()) != 0) {
+                    tp::err();
+                }
+            }
+        }
+
+        fmt::println("Creating osu! startup config");
+        std::fstream bin;
+        bin.open(homedir+write_to);
+        if (amdgpu) {
+            bin << "#!/usr/bin/env bash\n\
+#export PATH=\"/opt/wine-osu/bin:$PATH\" #custom WINE ArchLinux\n\
+export PATH=\"$HOME/wine-osu/bin:$PATH\" #custom WINE new\n\
+\n\
+export WINEARCH=win32\n\
+export WINEPREFIX=\"$HOME/.wineosu\"\n\
+export WINEFSYNC=1\n\
+\n\
+export STAGING_AUDIO_DURATION=13333 #1.333ms at 48KHz\n\
+export STAGING_AUDIO_PERIOD=13333 #1.333ms at 48KHz\n\
+\n\
+export vblank_mode=0 #For AMD, Intel and others\n\
+#export __GL_SYNC_TO_VBLANK=0 #For NVIDIA \n\
+\n\
+cd ~/osu\n\
+#wine --version\n\
+wine \"osu!.exe\" #-devserver gatari.pw";
+        }else {
+            bin << "#!/usr/bin/env bash\n\
+#export PATH=\"/opt/wine-osu/bin:$PATH\" #custom WINE ArchLinux\n\
+export PATH=\"$HOME/wine-osu/bin:$PATH\" #custom WINE new\n\
+\n\
+export WINEARCH=win32\n\
+export WINEPREFIX=\"$HOME/.wineosu\"\n\
+export WINEFSYNC=1\n\
+\n\
+export STAGING_AUDIO_DURATION=13333 #1.333ms at 48KHz\n\
+export STAGING_AUDIO_PERIOD=13333 #1.333ms at 48KHz\n\
+\n\
+#export vblank_mode=0 #For AMD, Intel and others\n\
+export __GL_SYNC_TO_VBLANK=0 #For NVIDIA \n\
+\n\
+cd ~/osu\n\
+#wine --version\n\
+wine \"osu!.exe\" #-devserver gatari.pw";;
+        }
+        bin.close();
+        fmt::println("Changing osu! startup config permissions");
+        command = "chmod 777 " + homedir + write_to;
+        if (system(command.c_str())) {
             tp::err();
         }
 
