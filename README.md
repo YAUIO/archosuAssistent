@@ -3,3 +3,5 @@
 ArchOsu installer, with proper pipewire config writing
 
 SCRIPT WORKS ONLY ON ARCH AND WILL INSTALL PIPEWIRE AUDIO SERVER IN PROCESS
+
+works based on (https://telegra.ph/osu-low-latency-guide-ENG-10-12)[ENG guide] (https://telegra.ph/osu-low-latency-guide-02-03)[RU guide]
